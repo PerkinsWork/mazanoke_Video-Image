@@ -24,7 +24,6 @@ const videoUI = {
 };
 
 const { compress, init } = createVideoCompressor({
-  corePath: '/ffmpeg',
   onProgress: updateProgress,
   onLog: appendLog,
 });

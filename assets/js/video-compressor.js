@@ -17,7 +17,8 @@ export const CompressionMode = Object.freeze({
 
 /**
  * @typedef {Object} VideoCompressorConfig
- * @property {string} [corePath] Path where ffmpeg-core.js/wasm/worker assets are hosted. Defaults to "/ffmpeg".
+ * @property {string} [corePath] Optional path where ffmpeg-core.js/wasm/worker assets are hosted. If omitted, the default
+ * FFmpeg CDN path is used.
  * @property {(message: string) => void} [onLog] Global log handler used when a per-job handler is not provided.
  * @property {(progress: number) => void} [onProgress] Global progress handler used when a per-job handler is not provided.
  * @property {boolean} [log] Whether to forward ffmpeg internal logs. Defaults to true.
@@ -72,9 +73,9 @@ export class VideoCompressor {
   /**
    * @param {VideoCompressorConfig} [config]
    */
- constructor(config = {}) {
+  constructor(config = {}) {
     this.config = {
-      corePath: '/ffmpeg',
+      corePath: undefined,
       log: true,
       ffmpegFactory: createFFmpeg,
       fileFetcher: fetchFile,
@@ -95,10 +96,11 @@ export class VideoCompressor {
       return;
     }
     if (!this.loadingPromise) {
-      this.ffmpeg = this.config.ffmpegFactory({
-        corePath: this.config.corePath,
-        log: this.config.log,
-      });
+      const ffmpegOptions = { log: this.config.log };
+      if (this.config.corePath) {
+        ffmpegOptions.corePath = this.config.corePath;
+      }
+      this.ffmpeg = this.config.ffmpegFactory(ffmpegOptions);
       this.ffmpeg.on('log', ({ message }) => this.#forwardLog(message));
       this.ffmpeg.on('progress', ({ progress }) => this.#forwardProgress(progress));
       this.loadingPromise = this.ffmpeg.load();
