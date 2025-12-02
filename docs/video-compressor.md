@@ -15,7 +15,8 @@ Cross-Origin-Opener-Policy: same-origin
 Cross-Origin-Embedder-Policy: require-corp
 ```
 
-Place FFmpeg core files (e.g., `ffmpeg-core.js`, `ffmpeg-core.wasm`, `ffmpeg-core.worker.js`) under a path you control (default: `/ffmpeg`).
+Place FFmpeg core files (e.g., `ffmpeg-core.js`, `ffmpeg-core.wasm`, `ffmpeg-core.worker.js`) under a path you control or rely on the default CDN URLs used by `@ffmpeg/ffmpeg`.
+When self-hosting, serve the assets with long-lived caching and the COOP/COEP headers noted above.
 
 ## API Overview
 
@@ -25,7 +26,7 @@ Import the module and create an instance:
 import { CompressionMode, createVideoCompressor } from './assets/js/video-compressor.js';
 
 const { init, compress } = createVideoCompressor({
-  corePath: '/ffmpeg', // Where ffmpeg-core assets live
+  // corePath: '/ffmpeg', // Optional if you self-host the FFmpeg core assets
   onLog: (message) => console.debug(message),
   // Optional advanced hooks for testing/mocking:
   // ffmpegFactory: customCreateFFmpeg,
