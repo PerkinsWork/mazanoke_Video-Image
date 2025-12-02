@@ -10,3 +10,4 @@ Thumbs.db
 .env.local
 *.secret
 .env
+node_modules/

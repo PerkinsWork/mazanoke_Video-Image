@@ -1,0 +1,12 @@
+{
+  "name": "video-image-headless-tools",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.10",
+    "@ffmpeg/util": "^0.12.2"
+  }
+}

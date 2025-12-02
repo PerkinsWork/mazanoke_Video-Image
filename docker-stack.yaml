@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  mazanoke:
+    image: ghcr.io/civilblur/mazanoke:latest
+    ports:
+      - target: 80
+        published: 1080
+        protocol: tcp
+        mode: ingress
+    deploy:
+      restart_policy:
+        condition: any
